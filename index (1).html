@@ -1,0 +1,78 @@
+ <html>
+<head>
+ 
+ <meta charset="utf8">
+	<script type="text/javascript" src="jquery-1.8.2.min.js"></script>
+	
+	<script type="text/javascript">
+
+function Listar(){
+		
+			var dados = $('#form1').serialize();
+			
+			$.ajax({
+				type: "POST",
+                url: "arquivo.php",
+				data: dados,
+				dataType: 'json',
+				                
+                success: function(meu_json)
+				{
+					var valores = meu_json;        
+                    var lista = valores.alunos;
+					var tabela = document.getElementById("tabela1");
+
+                  
+					for(x=0;x<lista.length;x++)
+					{
+						var numeroLinhas = tabela.rows.length
+                        var linha = tabela.insertRow(numeroLinhas);
+                        var coluna1 = linha.insertCell(0);
+                        var coluna2 = linha.insertCell(1);  
+                        
+                        coluna1.innerHTML = lista[x].matricula;
+                        coluna2.innerHTML = lista[x].nome;
+                        
+
+					}
+				},
+				error: function(xhr, status, error) {
+            		console.error('Ocorreu um erro ao enviar os dados: ' + error);
+          		},
+				beforeSend: function(xhr) {
+				},
+				complete: function(xhr, status) {
+				},
+				timeout: 5000 
+			});
+			
+			
+		}
+
+    </script>
+</head>
+<body>
+
+    <form method="post" action="" id="form1">
+        DIGITE A MATRÍCULA: <input type="text" name="matricula" id="matricula" value=""/>
+        <br>  <br>
+        DIGITE O NOME: <input type="text" name="nome" id="nome" value=""/>
+        <br>   <br>
+       
+        
+      <input type="button" name="inserir" value="Inserir" onclick="Listar();"/>
+
+    </form>
+
+    <br> <br>
+
+    <table align="center" width="400px" border="1" id="tabela1">
+        <tr>
+            <td> MATRÍCULA </td>  <td> NOME </td> 
+        </tr>
+    </table>
+    
+
+
+</body>
+</html>
